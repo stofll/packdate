@@ -22,7 +22,8 @@ Near-term plan for **packdate**. Dates are rough; order matters more than calend
 
 - [x] `ROADMAP.md` + clearer README status
 - [x] SPDX license metadata in `pyproject.toml` (setuptools ≥ 77), pytest config
-- [ ] GitHub description, topics, homepage (set in the GitHub UI)
+- [x] GitHub description, topics, homepage (set in the GitHub UI)
+- [x] `AGENTS.md` — repo working rules + mandatory verification of claims
 - [ ] CI: GitHub Actions running `pytest` on Python 3.11–3.13 (together with the first tests in milestone 1)
 
 ### 1 — Date parser (library core)

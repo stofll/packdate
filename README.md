@@ -52,6 +52,7 @@ The base package has no runtime dependencies. OCR backends will land as optional
 ## Docs
 
 - [Roadmap](ROADMAP.md)
+- [AGENTS.md](AGENTS.md) (repo rules + verification policy for contributors and coding agents)
 - [Architecture](docs/ARCHITECTURE.md)
 - [Contributing](CONTRIBUTING.md)
 - [Research archive](docs/research/README.md) (libraries, papers, reference projects, OCR verdict)

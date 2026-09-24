@@ -10,6 +10,7 @@ Thanks for considering a contribution.
 
 ## Rules
 
+0. **Verify information** before it lands in docs or claims: no invented metrics, cite or reproduce, mark hypotheses as targets not results. Full policy: [AGENTS.md](AGENTS.md#verification-of-information-mandatory).
 1. Do not submit bulk AI-generated parsers without fixtures.
 2. Do not vendor datasets or weights whose license is unclear.
 3. Keep barcode and expiry modules separate.
@@ -28,6 +29,10 @@ pytest
 ```
 
 Tests live under `tests/` and arrive with the parser (roadmap milestone 1). The parser must stay stdlib-only; OCR backends go into optional extras.
+
+## Agent / automation notes
+
+Persistent instructions for coding agents live in [AGENTS.md](AGENTS.md) (verification policy, layout, dependency rules). Humans should skim the verification section too when editing README or research.
 
 ## License
 
