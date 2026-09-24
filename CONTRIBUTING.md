@@ -21,7 +21,13 @@ See [ROADMAP.md](ROADMAP.md) for the current milestone and good first targets (p
 
 ## Dev setup
 
-TBD once `pyproject.toml` and the first `extract()` land.
+```bash
+python -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev]"
+pytest
+```
+
+Tests live under `tests/` and arrive with the parser (roadmap milestone 1). The parser must stay stdlib-only; OCR backends go into optional extras.
 
 ## License
 
