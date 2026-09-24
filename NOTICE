@@ -1,0 +1,9 @@
+packdate
+Copyright 2026 the packdate authors
+
+This product includes software developed at / by contributors to the packdate project.
+
+Third-party notices (fill as dependencies are added):
+- Open Food Facts data, when used: © Open Food Facts contributors — ODbL / DbCL; images CC-BY-SA.
+  See https://world.openfoodfacts.org/terms-of-use
+- PaddleOCR / PP-OCR weights: Apache-2.0 — https://github.com/PaddlePaddle/PaddleOCR
