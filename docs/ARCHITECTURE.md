@@ -47,3 +47,8 @@ App “pantry tracker” can live under `apps/` later; it must not block the lib
 ## Research archive
 
 See [research/README.md](research/README.md).
+
+## Roadmap
+
+Staged milestones: [ROADMAP.md](../ROADMAP.md).
+

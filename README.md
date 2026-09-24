@@ -4,6 +4,17 @@ Experimental open-source pipeline for reading **expiration / best-before dates**
 
 > **Not a drop-in 99% field OCR.** Assist + human confirm. Lab numbers on public benchmarks do not equal fridge-photo accuracy.
 
+## Status
+
+| Milestone | State |
+|-----------|--------|
+| Repo scaffold + research archive | **Done** |
+| Date parser (`parse/`) | Next |
+| `extract()` v0.1 (full-frame OCR + CLI) | Planned |
+| ROI detector / barcode+OFF | Later |
+
+See the full staged plan in [ROADMAP.md](ROADMAP.md). Architecture decisions live in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
 ## Why this exists
 
 General OCR (PaddleOCR, doc VLMs, etc.) is strong in 2025–2026. **Expiry-on-packaging** is still an application layer: find the date ROI, OCR the crop, parse many formats, tell *use-by* from *manufactured*, abstain when unsure.
@@ -23,9 +34,15 @@ image
 
 Barcode (EAN/UPC) is a **separate** module: identity via Open Food Facts (or local cache). A barcode does **not** give the expiry of that physical unit.
 
-## Status
+## Install
 
-Scaffold / research-backed foundation. Implementation of `extract()` comes next.
+Not published to PyPI yet. From a clone:
+
+```bash
+pip install -e .
+```
+
+Heavy OCR extras will land with v0.1 (`extract()`).
 
 ## License
 
@@ -33,12 +50,12 @@ Scaffold / research-backed foundation. Implementation of `extract()` comes next.
 
 ## Docs
 
+- [Roadmap](ROADMAP.md)
 - [Architecture](docs/ARCHITECTURE.md)
 - [Contributing](CONTRIBUTING.md)
 - [Research archive](docs/research/README.md) (libraries, papers, reference projects, OCR verdict)
-- Key decisions: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
 
-## Name & scope
+## Scope
 
 - **In scope:** packaging date reading, date parsing, optional barcode+OFF identity, inventory-friendly outputs.
 - **Out of scope (v0):** claiming industrial line accuracy, replacing Cognex/Keyence, shipping proprietary barcode DB mirrors.

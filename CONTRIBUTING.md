@@ -15,6 +15,10 @@ Thanks for considering a contribution.
 3. Keep barcode and expiry modules separate.
 4. Prefer failing closed (abstain) over a guessed date.
 
+## Where we are
+
+See [ROADMAP.md](ROADMAP.md) for the current milestone and good first targets (parser formats and fixtures first).
+
 ## Dev setup
 
 TBD once `pyproject.toml` and the first `extract()` land.
