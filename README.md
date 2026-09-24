@@ -11,7 +11,8 @@ Experimental open-source pipeline for reading **expiration / best-before dates**
 | Repo scaffold + research archive | **Done** |
 | Date parser (`parse/`) | Next |
 | `extract()` v0.1 (full-frame OCR + CLI) | Planned |
-| ROI detector / barcode+OFF | Later |
+| Bench gate on stratified photos | Planned |
+| ROI detector (if the bench needs it) / barcode + OFF | Later |
 
 See the full staged plan in [ROADMAP.md](ROADMAP.md). Architecture decisions live in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
@@ -26,7 +27,7 @@ There is no mature permissive “expiry E2E” library on Hugging Face. This rep
 ```text
 image
   → optional date ROI detector
-  → OCR (default: PP-OCR + Cyrillic where needed)
+  → OCR (default: PP-OCRv5/v6 + Cyrillic where needed; optional extra)
   → parse + disambiguate (EXP / BB / MFG / годен до / …)
   → { iso_date, kind, confidence, candidates, bboxes }
   → UI / caller confirms when confidence is low
@@ -42,7 +43,7 @@ Not published to PyPI yet. From a clone:
 pip install -e .
 ```
 
-Heavy OCR extras will land with v0.1 (`extract()`).
+The base package has no runtime dependencies. OCR backends will land as optional extras with v0.1 (`extract()`).
 
 ## License
 
