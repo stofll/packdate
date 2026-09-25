@@ -47,12 +47,13 @@ Food and cosmetics grammars (ТР ТС 022, ТР ТС 009) are deferred to miles
 
 ### 2 — `extract()` v0.1 (full-frame OCR + DataMatrix)
 
-- [ ] OCR backend behind `packdate[ocr]`: RapidOCR with `cyrillic_PP-OCRv5_mobile_rec` as the first candidate, compared against PaddleOCR on the fixtures. PP-OCRv6 has no Cyrillic model yet ([research/11](docs/research/11-models-refresh.md))
-- [ ] DataMatrix decode behind `packdate[barcode]` (zxing-cpp, Apache-2.0): GTIN + serial for identity and duplicate detection; AI (17) → expiry with `source=datamatrix` on EU/US packs. RU codes carry no expiry
-- [ ] `pipeline.extract(...) → Result`
-- [ ] Thin CLI under `apps/demo/`
+- [x] OCR backend behind `packdate[ocr]`: RapidOCR with `cyrillic_PP-OCRv5_mobile_rec` as the first candidate, compared against PaddleOCR on the fixtures. PP-OCRv6 has no Cyrillic model yet ([research/11](docs/research/11-models-refresh.md))
+- [x] DataMatrix decode behind `packdate[barcode]` (zxing-cpp, Apache-2.0): GTIN + serial for identity and duplicate detection; AI (17) → expiry with `source=datamatrix` on EU/US packs. RU codes carry no expiry
+- [x] `pipeline.extract(...) → Result`; OCR and code disagreeing → abstain `ambiguous`
+- [x] Thin CLI under `apps/demo/`
 - [ ] ~30 golden medicine photo fixtures + expected JSON (label provenance recorded; a cloud VLM may pre-label only with human review — see [research/11 §5](docs/research/11-models-refresh.md#5-cloud-vlm-as-an-offline-labeling-oracle-not-runtime))
-- [ ] Fixture metrics: Exact `valid_through`, false ISO, abstain rate
+- [x] Fixture metrics: Exact `valid_through`, false ISO, abstain rate, OCR-vs-parser miss split (`apps/demo/evaluate.py`)
+- [ ] Compare `cyrillic` vs `eslav` PP-OCRv5 recognition models on the fixtures
 
 **Done when:** install → run CLI on a few photos → readable JSON + clear "confirm me" cases.
 

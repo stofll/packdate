@@ -10,7 +10,7 @@ Experimental open-source pipeline for reading **expiration / best-before dates**
 |-----------|--------|
 | Repo scaffold + research archive | **Done** |
 | Date parser (`parse/`), medicines first | v0.0.x in progress — [policy](docs/PARSER.md) |
-| `extract()` v0.1 (full-frame OCR + DataMatrix + CLI) | Planned |
+| `extract()` v0.1 (full-frame OCR + DataMatrix + CLI) | Code in progress; waiting for golden photos |
 | Local web demo (upload → confirm → list) | Planned |
 | Bench gate on stratified photos | Planned |
 | ROI detector (if the bench needs it) / food + barcode + OFF | Later |
@@ -44,10 +44,23 @@ Barcode is a **separate** module. EAN/UPC gives identity via Open Food Facts (or
 Not published to PyPI yet. From a clone:
 
 ```bash
-pip install -e .
+pip install -e .                    # parser only, no dependencies
+pip install -e ".[ocr,barcode]"     # + RapidOCR (Cyrillic PP-OCRv5) and DataMatrix decoding
 ```
 
-The base package has no runtime dependencies. OCR backends will land as optional extras with v0.1 (`extract()`).
+RapidOCR downloads its ONNX models on first run.
+
+```bash
+python apps/demo/cli.py photo.jpg --text
+```
+
+```python
+from packdate.pipeline import extract
+from packdate.parse import parse_text
+
+extract("photo.jpg").to_dict()        # needs the extras
+parse_text("Годен до: 06.2027").to_dict()  # stdlib only
+```
 
 ## License
 
