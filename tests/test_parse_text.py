@@ -49,6 +49,18 @@ COMMITTED = [
     ("до06.2027", date(2027, 6, 30), Confidence.CHECK),
     ("MFG EXP\n01.2025 01.2028", date(2028, 1, 31), Confidence.CHECK),  # column layout
     ("EXP 06/15/2027", date(2027, 6, 15), Confidence.CHECK),  # only MM/DD is valid
+    # no separators (always need a cue)
+    ("Годен до 0727", date(2027, 7, 31), Confidence.HIGH),  # MMYY
+    ("Годен до 072027", date(2027, 7, 31), Confidence.HIGH),  # MMYYYY
+    ("Годен до 150327", date(2027, 3, 15), Confidence.HIGH),  # DDMMYY
+    ("Годен до 15032027", date(2027, 3, 15), Confidence.HIGH),  # DDMMYYYY
+    # a Russian cue rules out the MM/DD reading
+    ("Годен до: 01/07/2021", date(2021, 7, 1), Confidence.HIGH),
+    # OCR text from Wikimedia Commons photos (datasets/commons_ru_drugs.labels.json)
+    ("Серия 490724\nГоден до 0727", date(2027, 7, 31), Confidence.HIGH),
+    ("Серия 571217 / Годен до 0120", date(2020, 1, 31), Confidence.HIGH),
+    ("СЕРИЯ 0530424 ГОДЕН ДО 04 2029", date(2029, 4, 30), Confidence.HIGH),
+    ("Серия GCO377\nРЕДНИЗОДОН\nГоден до 02/2027", date(2027, 2, 28), Confidence.HIGH),
 ]
 
 
@@ -76,6 +88,11 @@ ABSTAINED = [
     ("EXP 06/07/2027", AbstainReason.AMBIGUOUS),  # DD/MM and MM/DD both valid
     ("Дата изг. 06.2028 Годен до 06.2027", AbstainReason.INCONSISTENT),
     ("Годен до / Серия\n06.2027 123456", AbstainReason.CUE_WITHOUT_DATE),
+    ("0727", AbstainReason.NO_DATE),  # no-separator date without a cue
+    ("Тел. (343) 25-01-83", AbstainReason.NO_DATE),  # phone, not a date
+    ("Годен до 06/15/2027", AbstainReason.CUE_WITHOUT_DATE),  # MM/DD next to a Russian cue
+    ("18072024 Годен до", AbstainReason.CUE_WITHOUT_DATE),  # date before the cue
+    ("0150524 03 2027", AbstainReason.NO_CUE),  # embossed blister, no cue in frame
 ]
 
 

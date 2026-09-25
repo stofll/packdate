@@ -24,12 +24,13 @@ expiry_from_gs1(decoded_datamatrix_text)  # AI (17) on EU/US packs; RU codes →
 
 | Pattern | Example | Precision | Notes |
 |---|---|---|---|
-| `ДД.ММ.ГГГГ`, `ДД.ММ.ГГ` (`.` `/` `-` `_`) | `15.03.2027` | day | DMY by default; with `/`, MM/DD is kept as another reading |
+| `ДД.ММ.ГГГГ`, `ДД.ММ.ГГ` (`.` `/` `-` `_`) | `15.03.2027` | day | DMY by default; with `/` and a non-Russian cue, MM/DD is kept as another reading (confidence `check`). `ДД-ММ-ГГ` needs a cue: phone numbers look the same |
 | `ГГГГ-ММ-ДД` | `2027-06-15` | day | |
 | `[ДД] MON ГГГГ` (EN / RU month names) | `30 JUN 2027`, `12 ИЮЛ 2026` | day / month | two-digit year needs a cue |
 | `ГГГГ-ММ`, `ГГГГ.ММ`, `ГГГГ/ММ` | `2027-06` | month | |
 | `ММ.ГГГГ`, `ММ/ГГГГ`, `ММ_ГГГГ`, `ММ ГГГГ` | `06.2027` | month | EAEU №76 п.6 |
 | `ММ.ГГ` (`.` `/` `-` `_`) | `06.27` | month | needs a cue: too easy to confuse with doses (`10.25 мг`) |
+| `ММГГ`, `ММГГГГ`, `ДДММГГ`, `ДДММГГГГ` (no separator) | `0727`, `15032027` | month / day | needs a cue: batch numbers look the same. Six digits → `ММГГГГ` if valid, else `ДДММГГ` |
 
 Years must be 2000–2099; two-digit years are 20YY.
 
@@ -73,6 +74,8 @@ Russian marking codes (01 + 21 + 91 + 92, or 01 + 21 + 93) have no AI (17): `cod
 
 ## Known gaps
 
-- Spaces inside a digit group (`20 27`) and no-separator dates (`062027`, `DDMMYY`) are not read.
+- Spaces inside a digit group (`20 27`) are not read.
+- A date printed before its cue (`18072024 Годен до`) is not paired.
+- Shelf life relative to manufacture («дата изготовления 08.2017», «срок годности 2,5 года») is not derived.
 - Food (ТР ТС 022) and cosmetics (ТР ТС 009) rules are not implemented — see [ROADMAP](../ROADMAP.md) milestone 6.
 - The 24-character pairing window and the confidence categories are first guesses; the bench (milestone 4) should tune them.

@@ -36,7 +36,8 @@ Near-term plan for **packdate**. Dates are rough; order matters more than calend
 - [x] Rule `eaeu76_end_of_month`: month precision → `valid_through` = last day of that month
 - [x] GS1 element-string parser (stdlib, input is already-decoded text): AI (01) GTIN, (17) expiry, (10) batch, (21) serial; FNC1 / GS separators; explicit policy for day `00`
 - [x] OCR-noise normalization (`O→0`, `l/I→1`, spaces around separators) and calendar validation (reject `13.2027`)
-- [ ] Spaces inside digit groups (`20 27`) and no-separator dates (`062027`) — see [PARSER known gaps](docs/PARSER.md#known-gaps)
+- [x] No-separator dates after a cue (`0727`, `15032027`) — found on real photos
+- [ ] Spaces inside digit groups (`20 27`) — see [PARSER known gaps](docs/PARSER.md#known-gaps)
 - [x] Disambiguation policy documented in [docs/PARSER.md](docs/PARSER.md): cue beats position; MFG never becomes expiry; the expiry line vs the «Серия» line on the same pack
 - [x] Abstain policy with reasons (`no_cue`, `cue_without_date`, `ambiguous`, `mfg_only`) — prefer no ISO over a wrong one
 - [x] Unit tests on strings + format table under `tests/` (no photos required); stdlib only
