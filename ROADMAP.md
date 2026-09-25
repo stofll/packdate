@@ -26,19 +26,20 @@ Near-term plan for **packdate**. Dates are rough; order matters more than calend
 - [x] SPDX license metadata in `pyproject.toml` (setuptools ≥ 77), pytest config
 - [x] GitHub description, topics, homepage (set in the GitHub UI)
 - [x] `AGENTS.md` — repo working rules + mandatory verification of claims
-- [ ] CI: GitHub Actions running `pytest` on Python 3.11–3.13 (together with the first tests in milestone 1)
+- [x] CI: GitHub Actions running `pytest` on Python 3.11–3.13 (together with the first tests in milestone 1)
 
 ### 1 — Date parser, medicines (library core)
 
-- [ ] Result types (see [ARCHITECTURE](docs/ARCHITECTURE.md#result-contract)): `iso_date`, `precision` (`day` / `month`), `valid_through` (last good day), `rule_id`, `kind` (`expiry` / `mfg` / `unknown`), `confidence` (`high` / `check` / `none`), `candidates`, `abstain_reason`, `source`
-- [ ] Medicine cue lexicon: «Годен до» / «годен» / «до», «Серия» / «Лот», «Дата изготовления» / «Изготовлено»; EN: EXP, LOT, MFG
-- [ ] EAEU №76 п.6 formats: `ММ ГГГГ`, `ММ.ГГГГ`, `ММ/ГГГГ`, `ММ_ГГГГ` and two-digit-year variants; full `ДД.ММ.ГГГГ` when the day is printed (shelf life < 12 months, п.30)
-- [ ] Rule `eaeu76_end_of_month`: month precision → `valid_through` = last day of that month
-- [ ] GS1 element-string parser (stdlib, input is already-decoded text): AI (01) GTIN, (17) expiry, (10) batch, (21) serial; FNC1 / GS separators; explicit policy for day `00`
-- [ ] OCR-noise normalization (`O→0`, `l/I→1`, stray spaces inside numbers) and calendar validation (reject `13.2027`)
-- [ ] Disambiguation policy documented: cue beats position; MFG never becomes expiry; the expiry line vs the «Серия» line on the same pack
-- [ ] Abstain policy with reasons (`no_cue`, `cue_without_date`, `ambiguous`, `mfg_only`) — prefer no ISO over a wrong one
-- [ ] Unit tests on strings + format table under `tests/` (no photos required); stdlib only
+- [x] Result types (see [ARCHITECTURE](docs/ARCHITECTURE.md#result-contract)): `iso_date`, `precision` (`day` / `month`), `valid_through` (last good day), `rule_id`, `kind` (`expiry` / `mfg` / `unknown`), `confidence` (`high` / `check` / `none`), `candidates`, `abstain_reason`, `source`
+- [x] Medicine cue lexicon: «Годен до» / «годен» / «до», «Серия» / «Лот», «Дата изготовления» / «Изготовлено»; EN: EXP, LOT, MFG
+- [x] EAEU №76 п.6 formats: `ММ ГГГГ`, `ММ.ГГГГ`, `ММ/ГГГГ`, `ММ_ГГГГ` and two-digit-year variants; full `ДД.ММ.ГГГГ` when the day is printed (shelf life < 12 months, п.30)
+- [x] Rule `eaeu76_end_of_month`: month precision → `valid_through` = last day of that month
+- [x] GS1 element-string parser (stdlib, input is already-decoded text): AI (01) GTIN, (17) expiry, (10) batch, (21) serial; FNC1 / GS separators; explicit policy for day `00`
+- [x] OCR-noise normalization (`O→0`, `l/I→1`, spaces around separators) and calendar validation (reject `13.2027`)
+- [ ] Spaces inside digit groups (`20 27`) and no-separator dates (`062027`) — see [PARSER known gaps](docs/PARSER.md#known-gaps)
+- [x] Disambiguation policy documented in [docs/PARSER.md](docs/PARSER.md): cue beats position; MFG never becomes expiry; the expiry line vs the «Серия» line on the same pack
+- [x] Abstain policy with reasons (`no_cue`, `cue_without_date`, `ambiguous`, `mfg_only`) — prefer no ISO over a wrong one
+- [x] Unit tests on strings + format table under `tests/` (no photos required); stdlib only
 
 **Done when:** OCR text (or fixture strings) from medicine packs → stable `valid_through` or honest abstain; MFG ≠ EXP on golden cases.
 
