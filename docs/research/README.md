@@ -17,6 +17,8 @@ These notes are historical context, not runtime docs. Normative decisions live i
 | [10-medicine-vs-food.md](10-medicine-vs-food.md) | First domain: RU/EU/US DataMatrix contents, printed date rules for drugs vs food, decoders |
 | [11-models-refresh.md](11-models-refresh.md) | Gaps after 09: on-device Cyrillic OCR, ExpDate license, 2026 small VLMs, labeling-oracle terms |
 | [12-post-recognition.md](12-post-recognition.md) | After OCR: date-semantics edge cases, pantry app data models, HITL confirm, storage, reminders |
+| [13-datasets-audit.md](13-datasets-audit.md) | Open datasets license audit for medicine-first fixtures / ExpDate / Commons / OFF (2026-09-26) |
+| [14-datasets-hf-sweep.md](14-datasets-hf-sweep.md) | Wide HF-first dataset sweep: all hits incl. empty/NC/non-RU; Food Packaging OCR; RF area-expiry 4480; Mendeley 3900 packs (2026-09-26) |
 
 **License of this folder:** same as the repository (Apache-2.0). Linked third-party projects keep their own licenses; datasets may use ODbL/CC — check before redistributing.
 
@@ -44,3 +46,17 @@ Added with notes 10–12 (2026-09-25):
 - **Gemma 4 is Apache-2.0** (Gemma 1–3 / 3n use the Gemma license). New permissive VLM candidates: GLM-OCR (MIT), Qwen3.5-0.8B/2B, MiniCPM-V-4.6. Avoid Moondream 3.x and LFM-VL. See [11](11-models-refresh.md).
 - **Russian DataMatrix codes carry no expiry.** 06 says a barcode never gives per-pack expiry; that holds for EAN/UPC and RU marking codes, but EU FMD / US DSCSA drug DataMatrix codes do include AI (17) expiry. See [10](10-medicine-vs-food.md).
 - **«Употребить до» ≠ EU "use by".** Under ТР ТС 022 it is a synonym of «годен до». The old roadmap's `kind=use_by` for RU cues is dropped. See [12](12-post-recognition.md).
+
+Added with note 13 (2026-09-26):
+
+- **ExpDate CC BY 4.0 re-confirmed** on the official dataset page License section; HF mirror `dimun/ExpirationDate` remains mistagged `afl-3.0`. See [13](13-datasets-audit.md).
+- **Roboflow Universe is no longer a blanket Cloudflare wall** (for this access path). TCC `products-expiration-dates` shows **CC0**; several other expiry sets show **CC BY 4.0** in the UI. Image provenance is still uploader-declared — treat as Conditional. See [13](13-datasets-audit.md).
+- **New medicine-pack photo set:** Mobile-Captured Drug Packs (Mendeley, CC BY 4.0, 2,000 images) — no expiry transcriptions. See [13](13-datasets-audit.md).
+- **Still no large labeled RU packaging-expiry dataset.** Commons + own photos remain the acquisition path for Cyrillic medicines.
+
+Added with note 14 (2026-09-26):
+
+- **Wide sweep beyond [13](13-datasets-audit.md):** Hugging Face has almost no usable pack-expiry datasets (`срок годности` / `годен` → 0). Material new finds are mostly **off-HF**: Mendeley Food Packaging OCR (CC BY 4.0, validity-period annotations, ~2.56 GB zip), second Mobile-Captured pharma set (`bjy2svvmn8`, 3,900 images, CC BY 4.0), Roboflow `area-expiry-date` (**4,480**, CC BY 4.0), Zenodo HalalBench / Bilingual Food Labels. See [14](14-datasets-hf-sweep.md).
+- **HF surprises:** gated `VietMedTeam/Expired-Food-Items` (401); empty-card `jojogo9/expiration_date` (~662 MB zips); license-less `ABINSHA/blister_data` (683 batch/med pairs); Italian OTC packs Apache-2.0 (identity, not inkjet EXP).
+- **Still no large labeled RU packaging-expiry dataset** after the broader net.
+
