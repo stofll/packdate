@@ -9,7 +9,7 @@ Experimental open-source pipeline for reading **expiration / best-before dates**
 | Milestone | State |
 |-----------|--------|
 | Repo scaffold + research archive | **Done** |
-| Date parser (`parse/`), medicines first | Next |
+| Date parser (`parse/`), medicines first | v0.0.x in progress — [policy](docs/PARSER.md) |
 | `extract()` v0.1 (full-frame OCR + DataMatrix + CLI) | Planned |
 | Local web demo (upload → confirm → list) | Planned |
 | Bench gate on stratified photos | Planned |
