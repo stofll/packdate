@@ -12,6 +12,12 @@ Scripts and license notes. No photos or weights are redistributed from this repo
 
 Not usable yet: Roboflow Universe datasets (license pages behind a Cloudflare check, **unverified**); Kaggle `medicine-tablet-pack-image-dataset` (scraped from Google Images, license unclear).
 
+### Local ExpDate download (checked 2026-09-26)
+
+`Products-Real.zip` was inspected locally: SHA-256 `31dff6e0045ab6f4683c9e20b5dd04fedd751c174b681193744a013637e38da6`, 660,701,583 bytes. It contains 1,102 training JPEGs, 665 evaluation JPEGs, and an `annotations.json` file for each split. Every image has an annotation entry; the ZIP CRC check passed. These checks establish the contents of the local archive, but there is no upstream checksum here to prove byte-for-byte identity with the official download.
+
+The [official ExpDate page](https://felizang.github.io/expdate/index_expdate.html) provides the download link and licenses the dataset under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Redistribution requires credit to the creators, a license link, and an indication of changes. The page asks users to cite Seker and Ahn's associated publication and acknowledge the Korea Institute of Science and Technology (KIST). The local archive has no bundled license or provenance file, so use the official page for these terms. We keep the archive and photos outside Git: the ZIP exceeds [GitHub's 100 MiB single-file limit](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github) and the full image set would make the source repository much larger. For experiments, download it from the official page to a directory outside this repository.
+
 ## Commons medicine photos
 
 ```bash

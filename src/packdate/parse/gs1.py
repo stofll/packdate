@@ -30,9 +30,10 @@ _FNC1_ALIASES = ("<GS>", "<FNC1>", "\xe8")  # zxing escaped form; FNC1 as ASCII 
 _SYMBOLOGY_ID = re.compile(r"^\][A-Za-z]\d")  # "]d2", "]C1", "]Q3", …
 
 RULE_AI17 = "gs1_ai17"
-# Day "00" in AI (17): no specific day, read as end of month. This reading and
-# the healthcare ban on "00" are taken from secondary sources so far
-# (docs/research/12-post-recognition.md, UNVERIFIED list), hence CHECK.
+# Day "00" in AI (17) means the last day of the month in GS1 General
+# Specifications 26.0, section 3.4.7. Regulated healthcare products must use
+# an actual day from 2025-01-01; keep CHECK because this parser has no product
+# category or issue-date context (docs/research/12-post-recognition.md).
 RULE_AI17_DAY00 = "gs1_ai17_day00"
 
 # AI length by its first two digits. Covers the AIs seen on drug and food packs;
