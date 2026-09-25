@@ -17,6 +17,9 @@ dependencies = []
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0"]
+# RapidOCR >= 3.5 ships the Cyrillic PP-OCRv5 recognition model (docs/research/11).
+ocr = ["rapidocr>=3.5", "onnxruntime", "pillow"]
+barcode = ["zxing-cpp>=3.1", "pillow"]
 
 [build-system]
 requires = ["setuptools>=77"]
