@@ -9,10 +9,11 @@ Experimental open-source pipeline for reading **expiration / best-before dates**
 | Milestone | State |
 |-----------|--------|
 | Repo scaffold + research archive | **Done** |
-| Date parser (`parse/`) | Next |
-| `extract()` v0.1 (full-frame OCR + CLI) | Planned |
+| Date parser (`parse/`), medicines first | Next |
+| `extract()` v0.1 (full-frame OCR + DataMatrix + CLI) | Planned |
+| Local web demo (upload → confirm → list) | Planned |
 | Bench gate on stratified photos | Planned |
-| ROI detector (if the bench needs it) / barcode + OFF | Later |
+| ROI detector (if the bench needs it) / food + barcode + OFF | Later |
 
 See the full staged plan in [ROADMAP.md](ROADMAP.md). Architecture decisions live in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
@@ -26,14 +27,17 @@ There is no mature permissive “expiry E2E” library on Hugging Face. This rep
 
 ```text
 image
+  → optional DataMatrix decode (GS1 AI 17 expiry on EU/US drug packs; GTIN + serial otherwise)
   → optional date ROI detector
-  → OCR (default: PP-OCRv5/v6 + Cyrillic where needed; optional extra)
-  → parse + disambiguate (EXP / BB / MFG / годен до / …)
-  → { iso_date, kind, confidence, candidates, bboxes }
+  → OCR (default: PP-OCRv5 + Cyrillic rec model; optional extra)
+  → parse + disambiguate (годен до / EXP / MFG / Серия / …) + date rules
+  → { iso_date, precision, valid_through, rule_id, kind, confidence, candidates, abstain_reason, bboxes }
   → UI / caller confirms when confidence is low
 ```
 
-Barcode (EAN/UPC) is a **separate** module: identity via Open Food Facts (or local cache). A barcode does **not** give the expiry of that physical unit.
+The first target domain is **medicines** (EAEU packs), where the printed date format is regulated; food comes later. See [ROADMAP](ROADMAP.md#decisions-behind-this-plan).
+
+Barcode is a **separate** module. EAN/UPC gives identity via Open Food Facts (or local cache), never the expiry of that physical unit. Russian marking DataMatrix codes carry GTIN + serial but no expiry; EU/US drug DataMatrix codes do carry it (GS1 AI 17).
 
 ## Install
 

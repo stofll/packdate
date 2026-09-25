@@ -14,6 +14,9 @@ These notes are historical context, not runtime docs. Normative decisions live i
 | [07-reference-projects.md](07-reference-projects.md) | Reference repos and roadmap |
 | [08-dependencies-shortlist.md](08-dependencies-shortlist.md) | What to depend on / avoid |
 | [09-ocr-models-license-audit.md](09-ocr-models-license-audit.md) | Deep OCR/VLM license audit (code vs weights, 2026-09-25) |
+| [10-medicine-vs-food.md](10-medicine-vs-food.md) | First domain: RU/EU/US DataMatrix contents, printed date rules for drugs vs food, decoders |
+| [11-models-refresh.md](11-models-refresh.md) | Gaps after 09: on-device Cyrillic OCR, ExpDate license, 2026 small VLMs, labeling-oracle terms |
+| [12-post-recognition.md](12-post-recognition.md) | After OCR: date-semantics edge cases, pantry app data models, HITL confirm, storage, reminders |
 
 **License of this folder:** same as the repository (Apache-2.0). Linked third-party projects keep their own licenses; datasets may use ODbL/CC — check before redistributing.
 
@@ -33,3 +36,11 @@ The notes above are kept as written. Checked against upstream on 2026-09-25 when
 - **TrOCR weights SPDX.** `microsoft/trocr-base-printed` HF card has no `license:` field; unilm code is MIT. Treat weights as UNVERIFIED until clarified.
 - **olmOCR / DeepSeek-OCR.** Apache-2.0 / MIT respectively — license OK; still document-biased for packaging dates (bench-only, not license-avoid).
 - **Repo layout in 02 is Dart/Flutter** (`packages/…`). It was superseded by the Python layout in [`../ARCHITECTURE.md`](../ARCHITECTURE.md).
+
+Added with notes 10–12 (2026-09-25):
+
+- **ML Kit OCR has no Cyrillic.** 01/02 suggest ML Kit text recognition for an Android demo; the official v2 languages page lists no Russian. Keep ML Kit for barcodes only. See [11](11-models-refresh.md).
+- **ExpDate license is CC BY 4.0** per the official dataset page; the HF mirror `dimun/ExpirationDate` says `afl-3.0`. Attribute via the official page. The roadmap's "confirm ExpDate license" item is resolved. See [11](11-models-refresh.md).
+- **Gemma 4 is Apache-2.0** (Gemma 1–3 / 3n use the Gemma license). New permissive VLM candidates: GLM-OCR (MIT), Qwen3.5-0.8B/2B, MiniCPM-V-4.6. Avoid Moondream 3.x and LFM-VL. See [11](11-models-refresh.md).
+- **Russian DataMatrix codes carry no expiry.** 06 says a barcode never gives per-pack expiry; that holds for EAN/UPC and RU marking codes, but EU FMD / US DSCSA drug DataMatrix codes do include AI (17) expiry. See [10](10-medicine-vs-food.md).
+- **«Употребить до» ≠ EU "use by".** Under ТР ТС 022 it is a synonym of «годен до». The old roadmap's `kind=use_by` for RU cues is dropped. See [12](12-post-recognition.md).
