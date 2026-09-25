@@ -1,0 +1,181 @@
+{
+  "source": "Wikimedia Commons (datasets/commons_ru_drugs.py)",
+  "labeled_by": "read by Claude from the photo (visual review 2026-09-25); not yet confirmed by a person",
+  "labels": {
+    "File:Аллопуринол Авексима (Allopurinol made by Aveksima, Russian market) 2025 03.jpg": {
+      "valid_through": "2027-07-31",
+      "stratum": "box_print",
+      "notes": "«Годен до 0727» (MMYY, no separator)"
+    },
+    "File:Tobrex (Tobramycin) made by Novartis Belgium for the Russian market, Apr 2026 05.jpg": {
+      "valid_through": "2028-07-31",
+      "stratum": "box_print",
+      "notes": "rotated side panel: Произв. 08 2025 / Годен до 07 2028"
+    },
+    "File:Pfizer methylprednisolone for Russian market, 2024 00 (DXO).jpg": {
+      "valid_through": "2027-02-28",
+      "stratum": "foil_blister",
+      "notes": "«Годен до 02/2027»"
+    },
+    "File:Pfizer methylprednisolone for Russian market, 2024 02 (DXO).jpg": {
+      "valid_through": "2027-02-28",
+      "stratum": "foil_blister",
+      "notes": "«Годен до 02/2027»"
+    },
+    "File:Vipidia (Alogliptin), issued in Moscow without charge, Jan 2025 02.jpg": {
+      "valid_through": "2027-03-31",
+      "stratum": "embossed_blister",
+      "notes": "embossed «0150524 03 2027», rotated, no cue on this side"
+    },
+    "File:Компливит СИЛА И ЭНЕРГИЯ (с женьшенем).jpg": {
+      "valid_through": "2021-07-01",
+      "stratum": "price_tag",
+      "notes": "pharmacy shelf tag «Годен до: 01/07/2021» (DMY)"
+    },
+    "File:Ротокан.jpg": {
+      "valid_through": "2020-01-31",
+      "stratum": "label_sticker",
+      "notes": "dot-matrix «Годен до 0120» (MMYY)"
+    },
+    "File:Химиотерапия доксорубицином (R-CHOP) в боткинской больнице, 2024 (3).jpg": {
+      "valid_through": "2029-04-30",
+      "stratum": "bag_print",
+      "notes": "«СЕРИЯ 0530424 ГОДЕН ДО 04 2029»"
+    },
+    "File:Аскорбинка с глюкозой.jpg": {
+      "valid_through": "2020-02-29",
+      "stratum": "derived_shelf_life",
+      "notes": "«дата изготовления 08.2017» + «Срок годности: 2,5 года» → 02.2020; end-of-month reading is an assumption"
+    },
+    "File:Fucicort (betamethasone, fusidic acid), Russian market 05.jpg": {
+      "valid_through": "2028-07-31",
+      "stratum": "tube_seam",
+      "notes": "embossed crimp «Серия/Дата изг./Годен до: 04367 07 25 07 28»"
+    },
+    "File:Okomistin (analogue of miramistin), made in Kaliningrad, Apr 2026 02.jpg": {
+      "valid_through": "2028-09-30",
+      "stratum": "label_sticker",
+      "notes": "«220925 / 09 28»; cue not visible, expiry reading inferred"
+    },
+    "File:Okomistin (analogue of miramistin), made in Kaliningrad, Apr 2026 03.jpg": {
+      "valid_through": "2028-09-30",
+      "stratum": "label_sticker",
+      "notes": "«220925 / 09 28»; cue not visible, expiry reading inferred"
+    },
+    "File:Xalatan (latanoprost) by Pfizer Belgium for Russian market, 2024 02.jpg": {
+      "valid_through": null,
+      "stratum": "multi_item",
+      "notes": "bottle «Годен до 0?/2026» (first digit unclear) and box column «05/2023 04/2026»: two items, abstain is correct"
+    },
+    "File:Lipoic acid, issued in Moscow without charge, Aug 2025 04.jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "«Годен до» cut off at the frame edge"
+    },
+    "File:Lipoic acid, issued in Moscow without charge, Aug 2025 06.jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "date column cut off"
+    },
+    "File:Латанопрост Фармстандарт-Лекко (Latanoprost generic by Pharmstandart-Lekko).jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "«Годен до 06/202?» last digit hidden by the curve"
+    },
+    "File:Латанопрост Фармстандарт-Лекко и Ксалатан (Latanoprost generic and Xalatan Pfizer).jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "«Годен до 06/202?» last digit hidden by the curve"
+    },
+    "File:Concor (bisoprolol) made by Nanolek, Russia with Merck branding, Aug 2025 01.jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "no expiry visible in the frame"
+    },
+    "File:Ibuprofen made in DE for the RU market in UA colours, May 2026 04.jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "no expiry visible in the frame"
+    },
+    "File:Lipoic acid, issued in Moscow without charge, July 2025 01 DxO.jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "no expiry visible in the frame"
+    },
+    "File:Tobrex (Tobramycin) made by Novartis Belgium for the Russian market, Apr 2026 07.jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "no expiry visible in the frame"
+    },
+    "File:Tobrex (Tobramycin) made by Novartis Belgium for the Russian market, Apr 2026 01.jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "no expiry visible in the frame"
+    },
+    "File:Vildagliptin, issued in Moscow without charge, Feb.2025 01.jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "no expiry visible in the frame"
+    },
+    "File:Vildagliptin, issued in Moscow without charge, Feb.2025 02.jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "no expiry visible in the frame"
+    },
+    "File:Vildagliptin, issued in Moscow without charge, June 2025 01.jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "no expiry visible in the frame"
+    },
+    "File:Vildagliptin, issued in Moscow without charge, June 2025 04.jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "no expiry visible in the frame"
+    },
+    "File:Vipidia (Alogliptin), issued in Moscow without charge, Jan 2025 01.jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "no expiry visible in the frame"
+    },
+    "File:Xalatan (latanoprost) by Pfizer Belgium for Russian market, 2024 01.jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "no expiry visible in the frame"
+    },
+    "File:Xalatan (latanoprost) by Pfizer Belgium for Russian market, 2024 03.jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "no expiry visible in the frame"
+    },
+    "File:Xalatan (latanoprost) by Pfizer Belgium for Russian market, 2024 04.jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "no expiry visible in the frame"
+    },
+    "File:Xalatan (latanoprost) by Pfizer Belgium for Russian market, 2024 05.jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "no expiry visible in the frame"
+    },
+    "File:Аллопуринол Egis (Allopurinol made by Egis in Hungary for Russian market) 2025 01.jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "no expiry visible in the frame"
+    },
+    "File:Аллопуринол Egis (Allopurinol made by Egis in Hungary for Russian market) 2025 02.jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "no expiry visible in the frame"
+    },
+    "File:Аллопуринол Egis (Allopurinol made by Egis in Hungary for Russian market) 2025 03.jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "no expiry visible in the frame"
+    },
+    "File:Аллопуринол Авексима (Allopurinol made by Aveksima, Russian market) 2025 01.jpg": {
+      "valid_through": null,
+      "stratum": "negative",
+      "notes": "no expiry visible in the frame"
+    }
+  }
+}
