@@ -17,7 +17,7 @@ First domain is **medicines** (EAEU packs); food follows. Rationale in [ROADMAP]
 | `src/packdate/recognize/` | OCR backends behind optional extras (RapidOCR / PaddleOCR with the Cyrillic PP-OCRv5 rec model first; EasyOCR, TrOCR optional). |
 | `src/packdate/barcode/` | DataMatrix / EAN / UPC decode behind `packdate[barcode]` (zxing-cpp). Returns decoded text only. |
 | `src/packdate/parse/` | Formats, RU/EN cue lexicon, MFG vs EXP policy, calendar validation, date rules, GS1 element-string parsing. Stdlib only. |
-| `src/packdate/pipeline.py` | `extract(image) → Result` |
+| `src/packdate/pipeline.py` | `extract(image) → Result`; `run(image) → Extraction` (result + OCR lines, text, codes, backend name) for storage and debugging |
 | `apps/demo/` | Thin CLI + local web site (upload → confirm → list). Not the library core; own dependencies. |
 | `datasets/` | Scripts + license notes; sample fixtures under `tests/fixtures/` |
 
