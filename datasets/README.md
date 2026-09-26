@@ -2,6 +2,13 @@
 
 Scripts and license notes. No photos or weights are redistributed from this repo; scripts download them into a folder you choose (keep it outside the repo).
 
+The download helpers, draft Commons labels and ExpDate evaluator are included
+in this checkout. The [acquisition shortlist](EXPANSION.md) separates sources
+ready for OCR evaluation from photos that still need labels and detection-only
+sets. Background catalogs: [dataset audit](../docs/research/13-datasets-audit.md)
+and [HF-first sweep](../docs/research/14-datasets-hf-sweep.md). These are dated
+research snapshots; re-check upstream terms and annotation schemas before use.
+
 ## Open sources (checked 2026-09-25)
 
 | Source | What | License | Size | Expiry labels |
@@ -10,7 +17,30 @@ Scripts and license notes. No photos or weights are redistributed from this repo
 | [ExpDate](https://felizang.github.io/expdate/index_expdate.html) `Products-Real` (KIST) | 1,767 food / drink / pharma packs; test split (665) has `exp`-class boxes with transcriptions | CC BY 4.0 (official page; the HF mirror `dimun/ExpirationDate` says `afl-3.0` — attribute the source) | 630 MB | yes, non-RU formats |
 | [aihpi/bottle-cap-date-stamps](https://huggingface.co/datasets/aihpi/bottle-cap-date-stamps) | 438 inkjet date stamps on curved aluminium caps | CC BY 4.0 | 828 MB | yes (`metadata.csv`) |
 
-Not usable yet: Roboflow Universe datasets (license pages behind a Cloudflare check, **unverified**); Kaggle `medicine-tablet-pack-image-dataset` (scraped from Google Images, license unclear).
+### Additional candidates (source pages checked 2026-09-26)
+
+Counts below are reported upstream, not newly downloaded or independently
+deduplicated image sets. See [EXPANSION.md](EXPANSION.md) for the next checks.
+
+| Source | Reported size | Labels and role | Source-stated license |
+|---|---|---|---|
+| [Food Packaging OCR v2](https://data.mendeley.com/datasets/3cpx2fmn3r/2) | Image count unverified | Detection/recognition annotations, including validity-period text; inspect schema before ISO scoring | CC BY 4.0 |
+| [Mobile-Captured Pharmaceutical Medication Packages v1](https://data.mendeley.com/datasets/bjy2svvmn8/1) | 3,900 images / 150 packages | Medicine photos; expiry transcriptions not advertised, so review and label first | CC BY 4.0 |
+| [Mobile-Captured Drug Packs v3](https://data.mendeley.com/datasets/bsmy5jjysy/3) | 2,000 images / 166 packages | Medicine-photo diversity; expiry ground truth not established | CC BY 4.0 |
+| [Roboflow TCC](https://universe.roboflow.com/tcc-xrqer/products-expiration-dates) | 668 images | Detection classes date/code/prod/due; inspect export before OCR evaluation | CC0 1.0 |
+| [Roboflow area-expiry-date](https://universe.roboflow.com/expiry-date/area-expiry-date) | 4,480 images | Detection with 73 listed classes; needs schema and provenance audit | CC BY 4.0 |
+
+Roboflow license pages were accessible on this check; the earlier blanket
+Cloudflare limitation is superseded. Uploader-declared terms do not establish
+image origin or independence from ExpDate. Open Food Facts remains an identity
+source, not per-pack expiry ground truth; TextOCR is a general OCR candidate,
+not a substitute for medicine fixtures (details in the research audit).
+
+Keep datasets with unclear provenance or restrictive terms out of redistributed
+fixtures: the scraped Kaggle medicine-tablet set, license-less date demos,
+PharmaPack's research-only offering, and NC datasets remain unresolved or
+unsuitable according to the linked research snapshots. Re-verify before
+changing their status; do not infer rights from the availability of images.
 
 ### Local ExpDate download (checked 2026-09-26)
 
@@ -103,3 +133,12 @@ Script `apps/demo/evaluate.py`, backend `rapidocr/cyrillic_PP-OCRv5_mobile`, the
 | after (`data/open-sources`) | 6 | 1 of 7 | 22 of 22 |
 
 Remaining misses: embossed tube seam (OCR), rotated side-panel cue (OCR), embossed blister date with no cue in frame, sticker `09 28` with no cue, shelf life derived from the manufacture date. The one false date is a photo of two items with different dates.
+
+## Attribution and labeling
+
+Keep the Commons manifest with each image; preserve its individual license.
+For ExpDate, credit Seker and Ahn and KIST, link CC BY 4.0, and indicate changes.
+For each additional set, keep its version, source URL, creator, license, and
+label provenance. Dataset/image terms remain separate from the Apache-2.0 code
+license. Tool-generated drafts must be reviewed before becoming human-confirmed
+fixtures. The medicine fixture and benchmark gates in ROADMAP remain open.
