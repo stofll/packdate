@@ -73,6 +73,38 @@ def test_commits_expiry(text, expected, confidence):
     assert result.abstain_reason is None
 
 
+@pytest.mark.parametrize("separator", ["-", ".", "/", "_"])
+def test_year_first_full_date_preserves_day(separator):
+    text = separator.join(("2021", "08", "03"))
+    result = parse_text("EXP " + text)
+    assert result.iso_date == "2021-08-03"
+    assert result.valid_through == date(2021, 8, 3)
+    assert result.precision is Precision.DAY
+    assert result.chosen.raw == text
+
+
+@pytest.mark.parametrize("text", ["2021.02.29", "2021/13/03", "2021_08_00", "2021.08.32"])
+def test_invalid_year_first_date_never_falls_back_to_month(text):
+    result = parse_text("EXP " + text)
+    assert result.iso_date is None
+    assert not result.candidates
+
+
+def test_year_first_full_date_still_needs_expiry_evidence():
+    # Plain transcription from ExpDate test_00001.jpg; no expiry cue.
+    result = parse_text("2021.08.03")
+    assert result.iso_date is None
+    assert result.abstain_reason is AbstainReason.NO_CUE
+    assert [c.iso_date for c in result.candidates] == ["2021-08-03"]
+    manufactured = parse_text("MFG 2021.08.03")
+    assert manufactured.iso_date is None
+    assert manufactured.abstain_reason is AbstainReason.MFG_ONLY
+
+
+def test_year_first_spaced_separators_and_leap_day():
+    assert parse_text("EXP 2028 . 02. 29").iso_date == "2028-02-29"
+
+
 ABSTAINED = [
     ("", AbstainReason.NO_DATE),
     ("Хранить при температуре не выше 25 °C", AbstainReason.NO_DATE),

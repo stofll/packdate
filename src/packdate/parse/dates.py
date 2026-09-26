@@ -3,8 +3,8 @@ last good day.
 
 Formats: EAEU Council Decision №76, п.6 (`ММ ГГГГ`, `ММ.ГГГГ`, `ММ/ГГГГ`,
 `ММ_ГГГГ` and two-digit-year variants) and full dates when the day is printed
-(п.30). Plus ISO-like `ГГГГ-ММ(-ДД)` and English month names seen on imported
-packs. See docs/PARSER.md.
+(п.30). Plus year-first `ГГГГ-ММ(-ДД)` (also dot/slash/underscore full dates)
+and English month names seen on imported packs. See docs/PARSER.md.
 """
 
 from __future__ import annotations
@@ -148,7 +148,9 @@ _PATTERNS = [
         _full_numeric,
     ),
     (
-        re.compile(rf"{_D}(?P<y>\d{{4}})\s*-\s*(?P<m>\d{{1,2}})\s*-\s*(?P<d>\d{{1,2}}){_E}"),
+        re.compile(
+            rf"{_D}(?P<y>\d{{4}})\s*(?P<sep>[./\-_])\s*(?P<m>\d{{1,2}})\s*(?P=sep)\s*(?P<d>\d{{1,2}}){_E}"
+        ),
         _iso_day,
     ),
     (

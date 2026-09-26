@@ -25,7 +25,7 @@ expiry_from_gs1(decoded_datamatrix_text)  # AI (17) on EU/US packs; RU codes →
 | Pattern | Example | Precision | Notes |
 |---|---|---|---|
 | `ДД.ММ.ГГГГ`, `ДД.ММ.ГГ` (`.` `/` `-` `_`) | `15.03.2027` | day | DMY by default; with `/` and a non-Russian cue, MM/DD is kept as another reading (confidence `check`). `ДД-ММ-ГГ` needs a cue: phone numbers look the same |
-| `ГГГГ-ММ-ДД` | `2027-06-15` | day | |
+| `ГГГГ-ММ-ДД` (`-` `.` `/` `_`) | `2027-06-15`, `2021.08.03` | day | repeated separator; invalid full dates cannot fall back to month precision (tests: `tests/test_parse_text.py`) |
 | `[ДД] MON ГГГГ` (EN / RU month names) | `30 JUN 2027`, `12 ИЮЛ 2026` | day / month | two-digit year needs a cue |
 | `ГГГГ-ММ`, `ГГГГ.ММ`, `ГГГГ/ММ` | `2027-06` | month | |
 | `ММ.ГГГГ`, `ММ/ГГГГ`, `ММ_ГГГГ`, `ММ ГГГГ` | `06.2027` | month | EAEU №76 п.6 |
@@ -75,6 +75,7 @@ Russian marking codes (01 + 21 + 91 + 92, or 01 + 21 + 93) have no AI (17): `cod
 ## Known gaps
 
 - Spaces inside a digit group (`20 27`) are not read.
+- Full dates with space-only separators (`22 06 2022`) or month-first names (`APR-28-2023`) can produce incorrect partial month readings. See the [ExpDate diagnostic](benchmarks/expdate-2026-09-26.md#interpretation-and-next-work) for reproducible examples; these formats still need fail-closed handling.
 - A date printed before its cue (`18072024 Годен до`) is not paired.
 - Shelf life relative to manufacture («дата изготовления 08.2017», «срок годности 2,5 года») is not derived.
 - Food (ТР ТС 022) and cosmetics (ТР ТС 009) rules are not implemented — see [ROADMAP](../ROADMAP.md) milestone 6.
