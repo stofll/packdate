@@ -120,15 +120,21 @@ def main(out: Path) -> int:
 
 
 def write_labels(rows: list[dict], images: Path) -> None:
-    """Write `<photo>.json` sidecars from commons_ru_drugs.labels.json (keyed by Commons title)."""
+    """Add missing draft sidecars; preserve existing labels and human corrections."""
     labels_path = Path(__file__).with_name("commons_ru_drugs.labels.json")
     labels = json.loads(labels_path.read_text(encoding="utf-8"))["labels"]
     by_title = {row["title"]: row["file"] for row in rows}
+    written, kept = 0, 0
     for title, label in labels.items():
         if title in by_title:
             sidecar = (images / by_title[title]).with_suffix(".json")
-            sidecar.write_text(json.dumps(label, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"labels written: {sum(t in by_title for t in labels)} of {len(labels)}")
+            try:
+                with sidecar.open("x", encoding="utf-8") as stream:
+                    stream.write(json.dumps(label, ensure_ascii=False, indent=2))
+                written += 1
+            except FileExistsError:
+                kept += 1
+    print(f"labels written: {written}; existing labels preserved: {kept}; catalog labels: {len(labels)}")
 
 
 if __name__ == "__main__":

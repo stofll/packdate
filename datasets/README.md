@@ -121,6 +121,9 @@ python apps/demo/evaluate.py D:/packdate-data/commons-ru-drugs/images   # scores
 
 `manifest.json` keeps title, license, author and source URL per photo: keep it for attribution when you share results or images.
 
+Repeated downloads preserve existing label sidecars, including human corrections;
+only missing sidecars are initialized from the draft label catalog.
+
 `commons_ru_drugs.labels.json` holds 35 labels (12 with an expiry, 23 negatives or multi-item) keyed by Commons file title. They were read from the photos by Claude during a visual review on 2026-09-25 and **have not been confirmed by a person yet**. Photos where the date was not legible at 1280 px were left unlabeled.
 
 ### Measured here
