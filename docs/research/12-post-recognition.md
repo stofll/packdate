@@ -26,7 +26,7 @@
 | 12 | "Frozen on …" | separate `kind` = frozen_on, not an expiry | Annex X п.3 [S4] |
 | 13 | Storage-dependent shelf life; after-opening storage | storage condition as a separate field; after-opening is its own rule | 1169 Art. 25(2) [S4]; ТР ТС 022 Art. 4.1 (**UNVERIFIED**) |
 | 14 | Cosmetics PAO symbol + N months (shelf life > 30 months) | `pao_months`; date = user-entered opening date + N | EU 1223/2009 Art. 19(1)(c) [S6] |
-| 15 | GS1 AI (17) with day "00" | GS1 regex allows day 00 [S7]; healthcare disallows "00" since 2025-01-01 [S8]; "00" = last day of month per search snippet only [S9] | [S7][S8][S9] |
+| 15 | GS1 AI (17) with day "00" | The 2026 GS1 General Specifications interpret "00" as the last day of the month, but require an actual day for regulated healthcare products from 2025-01-01 | [S10] §3.4.7, pp. 213–214 |
 | 16 | Frozen / thawed item | expiry recalculated on move in/out of freezer; −1 = never | grocy `StockService.php` [R1] |
 
 expirationradar maps a month-only date to the **first** day of the month ("pessimistic", `dates.py`) [R4] — yet another policy; packdate must make its policy explicit per `rule_id`.
@@ -120,7 +120,8 @@ On opening: `valid_through = min(original, opened_at + days_after_open)` (grocy 
 | S6 | EU 1223/2009 Art. 19 — https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32009R1223 |
 | S7 | GS1 AI 17 — https://ref.gs1.org/ai/17 |
 | S8 | GS1 UK — https://www.gs1uk.org/insights/news/change-of-date-format-for-regulated-healthcare-products |
-| S9 | GS1 GSCN 21-040 — https://www.gs1.org/docs/barcodes/GSCN_21-040_HealthcareExpDate.pdf (search snippet only) |
+| S9 | GS1 GSCN 21-040 — https://www.gs1.org/docs/barcodes/GSCN_21-040_HealthcareExpDate.pdf (local PDF checked 2026-09-26, p. 5) |
+| S10 | GS1 General Specifications, release 26.0, January 2026 — https://ref.gs1.org/standards/genspecs/ (local PDF checked 2026-09-26, §3.4.7, pp. 213–214) |
 | R1 | grocy: `services/StockService.php`, `views/productform.blade.php`, `config-dist.php`, `grocy.openapi.json` — https://github.com/grocy/grocy |
 | R2 | pantry_app: `lib/models/inventory_item.dart`, `lib/services/notification_service.dart` — https://github.com/Thigas-Tech/pantry_app |
 | R3 | ShelfLife: `ml/ExpiryDateScanner.kt`, `ui/screens/ScannerScreen.kt`, `notifications/ExpiryCheckWorker.kt` — https://github.com/officialfshot-web/ShelfLife |
@@ -132,13 +133,14 @@ On opening: `valid_through = min(original, opened_at + days_after_open)` (grocy 
 | P1 | https://developer.android.com/about/versions/14/changes/schedule-exact-alarms |
 | P2 | https://developer.apple.com/documentation/uikit/uilocalnotification |
 
+S9 and S10 were checked against local PDF copies on 2026-09-26. SHA-256: S9 `17a212112f827c2407cf110bbb971978c0e5a6e3339fb00259890c5150bfb748`; S10 `d32eae37039bdce4931714d6eae73fd682d060c692edecc23620233b0733efe6`. The PDFs are not redistributed here; use the linked GS1 originals.
+
 ## UNVERIFIED
 
-1. GS1 General Specifications wording that day "00" = last day of month, and whether the 2025 "00" ban extends beyond regulated healthcare (only S9 search snippet; S8 confirms healthcare).
-2. ТР ТС 022 Art. 4.1 requirement to state after-opening storage (search snippet only).
-3. Whether the meganorm copy of ТР ТС 009 matches the current official EAEU text.
-4. Microsoft HAX guideline titles (Amershi et al., CHI 2019) — pages blocked.
-5. The 64-notification limit for the current `UNUserNotificationCenter` API.
-6. Full text of the Android 14 exact-alarms page (only the heading confirmed).
-7. ShelfLife `Calendar` leniency (`32/13` rollover) — inferred from code, not run.
-8. Real packs with several shelf lives per storage regime ("+2…+6 °C — N days; −18 °C — M months") — no regulation found for a specific format.
+1. ТР ТС 022 Art. 4.1 requirement to state after-opening storage (search snippet only).
+2. Whether the meganorm copy of ТР ТС 009 matches the current official EAEU text.
+3. Microsoft HAX guideline titles (Amershi et al., CHI 2019) — pages blocked.
+4. The 64-notification limit for the current `UNUserNotificationCenter` API.
+5. Full text of the Android 14 exact-alarms page (only the heading confirmed).
+6. ShelfLife `Calendar` leniency (`32/13` rollover) — inferred from code, not run.
+7. Real packs with several shelf lives per storage regime ("+2…+6 °C — N days; −18 °C — M months") — no regulation found for a specific format.

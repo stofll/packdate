@@ -16,3 +16,8 @@ weights/
 *.pdmodel
 .idea/
 .vscode/
+
+# Local upstream downloads; keep source links and provenance in docs instead.
+/Products-Real.zip
+/GSCN_21-040_HealthcareExpDate.pdf
+/download.pdf

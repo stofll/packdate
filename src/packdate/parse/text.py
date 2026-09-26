@@ -7,6 +7,7 @@ doubt, abstain.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from datetime import date
 
@@ -43,10 +44,14 @@ def parse_text(text: str, source: Source = Source.OCR) -> Result:
     pairings = _pair(cues, dates)
 
     candidates: list[DateCandidate] = []
+    month_first: set[DateCandidate] = set()  # candidates read as MM/DD
     expiry_cue_paired_invalid = False
     for i, match in enumerate(dates):
         pairing = pairings.get(i)
-        if not match.readings:
+        cue_text = norm[pairing.cue.span[0] : pairing.cue.span[1]] if pairing else None
+        # MM/DD is an imported-pack convention; next to a Russian cue it is not a reading.
+        alt = () if cue_text and _CYRILLIC.search(cue_text) else match.alt_readings
+        if not match.readings and not alt:
             if pairing and pairing.cue.type is CueType.EXPIRY:
                 expiry_cue_paired_invalid = True
             continue
@@ -54,7 +59,7 @@ def parse_text(text: str, source: Source = Source.OCR) -> Result:
             continue
         kind = _KIND[pairing.cue.type] if pairing else Kind.UNKNOWN
         raw = norm[match.span[0] : match.span[1]]
-        for d, precision in match.readings:
+        for n, (d, precision) in enumerate(match.readings + alt):
             last_day, rule_id = valid_through(d, precision)
             candidates.append(
                 DateCandidate(
@@ -65,9 +70,11 @@ def parse_text(text: str, source: Source = Source.OCR) -> Result:
                     kind=kind,
                     raw=raw,
                     span=match.span,
-                    cue=norm[pairing.cue.span[0] : pairing.cue.span[1]] if pairing else None,
+                    cue=cue_text,
                 )
             )
+            if n >= len(match.readings):
+                month_first.add(candidates[-1])
 
     ordered = tuple(sorted(candidates, key=lambda c: _KIND_ORDER[c.kind]))
     expiry = [c for c in ordered if c.kind is Kind.EXPIRY]
@@ -94,7 +101,7 @@ def parse_text(text: str, source: Source = Source.OCR) -> Result:
 
     index = next(i for i, m in enumerate(dates) if m.span == chosen.span)
     pairing = pairings[index]
-    uncertain = dates[index].month_first or pairing.cue.weak or pairing.columns
+    uncertain = chosen in month_first or pairing.cue.weak or pairing.columns
     return Result(
         confidence=Confidence.CHECK if uncertain else Confidence.HIGH,
         source=source,
@@ -104,6 +111,7 @@ def parse_text(text: str, source: Source = Source.OCR) -> Result:
 
 
 _KIND = {CueType.EXPIRY: Kind.EXPIRY, CueType.MFG: Kind.MFG}
+_CYRILLIC = re.compile("[а-яё]", re.IGNORECASE)
 _KIND_ORDER = {Kind.EXPIRY: 0, Kind.UNKNOWN: 1, Kind.MFG: 2}
 
 

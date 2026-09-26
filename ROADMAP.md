@@ -36,7 +36,8 @@ Near-term plan for **packdate**. Dates are rough; order matters more than calend
 - [x] Rule `eaeu76_end_of_month`: month precision → `valid_through` = last day of that month
 - [x] GS1 element-string parser (stdlib, input is already-decoded text): AI (01) GTIN, (17) expiry, (10) batch, (21) serial; FNC1 / GS separators; explicit policy for day `00`
 - [x] OCR-noise normalization (`O→0`, `l/I→1`, spaces around separators) and calendar validation (reject `13.2027`)
-- [ ] Spaces inside digit groups (`20 27`) and no-separator dates (`062027`) — see [PARSER known gaps](docs/PARSER.md#known-gaps)
+- [x] No-separator dates after a cue (`0727`, `15032027`) — found on real photos
+- [ ] Spaces inside digit groups (`20 27`) — see [PARSER known gaps](docs/PARSER.md#known-gaps)
 - [x] Disambiguation policy documented in [docs/PARSER.md](docs/PARSER.md): cue beats position; MFG never becomes expiry; the expiry line vs the «Серия» line on the same pack
 - [x] Abstain policy with reasons (`no_cue`, `cue_without_date`, `ambiguous`, `mfg_only`) — prefer no ISO over a wrong one
 - [x] Unit tests on strings + format table under `tests/` (no photos required); stdlib only
@@ -53,6 +54,7 @@ Food and cosmetics grammars (ТР ТС 022, ТР ТС 009) are deferred to miles
 - [x] Thin CLI under `apps/demo/`
 - [ ] ~30 golden medicine photo fixtures + expected JSON (label provenance recorded; a cloud VLM may pre-label only with human review — see [research/11 §5](docs/research/11-models-refresh.md#5-cloud-vlm-as-an-offline-labeling-oracle-not-runtime))
 - [x] Fixture metrics: Exact `valid_through`, false ISO, abstain rate, OCR-vs-parser miss split (`apps/demo/evaluate.py`)
+- [x] External ExpDate diagnostic: ZIP evaluation runner, full-frame vs annotated crop OCR, printed ISO agreement, and saved-text parser replay (`datasets/evaluate_expdate.py`; protocol in [datasets/README](datasets/README.md#evaluate-the-downloaded-expdate-archive)). Does not close the medicine fixture or bench gates.
 - [ ] Compare `cyrillic` vs `eslav` PP-OCRv5 recognition models on the fixtures
 
 **Done when:** install → run CLI on a few photos → readable JSON + clear "confirm me" cases.

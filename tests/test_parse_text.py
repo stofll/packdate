@@ -49,6 +49,18 @@ COMMITTED = [
     ("до06.2027", date(2027, 6, 30), Confidence.CHECK),
     ("MFG EXP\n01.2025 01.2028", date(2028, 1, 31), Confidence.CHECK),  # column layout
     ("EXP 06/15/2027", date(2027, 6, 15), Confidence.CHECK),  # only MM/DD is valid
+    # no separators (always need a cue)
+    ("Годен до 0727", date(2027, 7, 31), Confidence.HIGH),  # MMYY
+    ("Годен до 072027", date(2027, 7, 31), Confidence.HIGH),  # MMYYYY
+    ("Годен до 150327", date(2027, 3, 15), Confidence.HIGH),  # DDMMYY
+    ("Годен до 15032027", date(2027, 3, 15), Confidence.HIGH),  # DDMMYYYY
+    # a Russian cue rules out the MM/DD reading
+    ("Годен до: 01/07/2021", date(2021, 7, 1), Confidence.HIGH),
+    # OCR text from Wikimedia Commons photos (datasets/commons_ru_drugs.labels.json)
+    ("Серия 490724\nГоден до 0727", date(2027, 7, 31), Confidence.HIGH),
+    ("Серия 571217 / Годен до 0120", date(2020, 1, 31), Confidence.HIGH),
+    ("СЕРИЯ 0530424 ГОДЕН ДО 04 2029", date(2029, 4, 30), Confidence.HIGH),
+    ("Серия GCO377\nРЕДНИЗОДОН\nГоден до 02/2027", date(2027, 2, 28), Confidence.HIGH),
 ]
 
 
@@ -59,6 +71,38 @@ def test_commits_expiry(text, expected, confidence):
     assert result.confidence is confidence
     assert result.kind is Kind.EXPIRY
     assert result.abstain_reason is None
+
+
+@pytest.mark.parametrize("separator", ["-", ".", "/", "_"])
+def test_year_first_full_date_preserves_day(separator):
+    text = separator.join(("2021", "08", "03"))
+    result = parse_text("EXP " + text)
+    assert result.iso_date == "2021-08-03"
+    assert result.valid_through == date(2021, 8, 3)
+    assert result.precision is Precision.DAY
+    assert result.chosen.raw == text
+
+
+@pytest.mark.parametrize("text", ["2021.02.29", "2021/13/03", "2021_08_00", "2021.08.32"])
+def test_invalid_year_first_date_never_falls_back_to_month(text):
+    result = parse_text("EXP " + text)
+    assert result.iso_date is None
+    assert not result.candidates
+
+
+def test_year_first_full_date_still_needs_expiry_evidence():
+    # Plain transcription from ExpDate test_00001.jpg; no expiry cue.
+    result = parse_text("2021.08.03")
+    assert result.iso_date is None
+    assert result.abstain_reason is AbstainReason.NO_CUE
+    assert [c.iso_date for c in result.candidates] == ["2021-08-03"]
+    manufactured = parse_text("MFG 2021.08.03")
+    assert manufactured.iso_date is None
+    assert manufactured.abstain_reason is AbstainReason.MFG_ONLY
+
+
+def test_year_first_spaced_separators_and_leap_day():
+    assert parse_text("EXP 2028 . 02. 29").iso_date == "2028-02-29"
 
 
 ABSTAINED = [
@@ -76,6 +120,11 @@ ABSTAINED = [
     ("EXP 06/07/2027", AbstainReason.AMBIGUOUS),  # DD/MM and MM/DD both valid
     ("Дата изг. 06.2028 Годен до 06.2027", AbstainReason.INCONSISTENT),
     ("Годен до / Серия\n06.2027 123456", AbstainReason.CUE_WITHOUT_DATE),
+    ("0727", AbstainReason.NO_DATE),  # no-separator date without a cue
+    ("Тел. (343) 25-01-83", AbstainReason.NO_DATE),  # phone, not a date
+    ("Годен до 06/15/2027", AbstainReason.CUE_WITHOUT_DATE),  # MM/DD next to a Russian cue
+    ("18072024 Годен до", AbstainReason.CUE_WITHOUT_DATE),  # date before the cue
+    ("0150524 03 2027", AbstainReason.NO_CUE),  # embossed blister, no cue in frame
 ]
 
 

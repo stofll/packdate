@@ -3,8 +3,8 @@ last good day.
 
 Formats: EAEU Council Decision №76, п.6 (`ММ ГГГГ`, `ММ.ГГГГ`, `ММ/ГГГГ`,
 `ММ_ГГГГ` and two-digit-year variants) and full dates when the day is printed
-(п.30). Plus ISO-like `ГГГГ-ММ(-ДД)` and English month names seen on imported
-packs. See docs/PARSER.md.
+(п.30). Plus year-first `ГГГГ-ММ(-ДД)` (also dot/slash/underscore full dates)
+and English month names seen on imported packs. See docs/PARSER.md.
 """
 
 from __future__ import annotations
@@ -48,9 +48,9 @@ class DateMatch:
 
     span: tuple[int, int]
     raw: str
-    readings: tuple[tuple[date, Precision], ...]
-    needs_cue: bool  # two-digit-year month dates are too easy to confuse with other numbers
-    month_first: bool = False  # includes an MM/DD reading (not the EAEU default)
+    readings: tuple[tuple[date, Precision], ...]  # default (EAEU) order
+    alt_readings: tuple[tuple[date, Precision], ...] = ()  # MM/DD reading of a slash date
+    needs_cue: bool = False  # too easy to confuse with other numbers without a cue
 
 
 def _year(text: str) -> int | None:
@@ -74,35 +74,40 @@ def _month_date(y: int | None, m: int) -> date | None:
     return date(y, m, 1)
 
 
-# Each pattern turns a match into (readings, needs_cue, month_first).
+def _day(d: date | None) -> list[tuple[date, Precision]]:
+    return [(d, Precision.DAY)] if d else []
+
+
+def _month(d: date | None) -> list[tuple[date, Precision]]:
+    return [(d, Precision.MONTH)] if d else []
+
+
+# Each pattern turns a match into (readings, alt_readings, needs_cue).
 def _full_numeric(m: re.Match[str]):
     a, b, y = int(m["a"]), int(m["b"]), _year(m["y"])
     dmy = _day_date(y, b, a)
-    readings = [(dmy, Precision.DAY)] if dmy else []
-    month_first = False
+    alt = []
     if m["sep"].strip() == "/":
         # Slash dates on imported packs may be MM/DD. Default is DMY (EAEU);
-        # keep MDY as another reading instead of guessing.
+        # keep MDY as an alternative instead of guessing.
         mdy = _day_date(y, a, b)
         if mdy and mdy != dmy:
-            readings.append((mdy, Precision.DAY))
-            month_first = True
-    return readings, False, month_first
+            alt = _day(mdy)
+    # "25-01-83" is more often a phone number than a date.
+    needs_cue = m["sep"].strip() == "-" and len(m["y"]) == 2
+    return _day(dmy), alt, needs_cue
 
 
 def _iso_day(m: re.Match[str]):
-    d = _day_date(_year(m["y"]), int(m["m"]), int(m["d"]))
-    return ([(d, Precision.DAY)] if d else []), False, False
+    return _day(_day_date(_year(m["y"]), int(m["m"]), int(m["d"]))), [], False
 
 
 def _iso_month(m: re.Match[str]):
-    d = _month_date(_year(m["y"]), int(m["m"]))
-    return ([(d, Precision.MONTH)] if d else []), False, False
+    return _month(_month_date(_year(m["y"]), int(m["m"]))), [], False
 
 
 def _month_year(m: re.Match[str]):
-    d = _month_date(_year(m["y"]), int(m["m"]))
-    return ([(d, Precision.MONTH)] if d else []), len(m["y"]) == 2, False
+    return _month(_month_date(_year(m["y"]), int(m["m"]))), [], len(m["y"]) == 2
 
 
 def _named(m: re.Match[str]):
@@ -110,10 +115,26 @@ def _named(m: re.Match[str]):
     y = _year(m["y"])
     needs_cue = len(m["y"]) == 2
     if m["d"]:
-        d = _day_date(y, month, int(m["d"]))
-        return ([(d, Precision.DAY)] if d else []), needs_cue, False
-    d = _month_date(y, month)
-    return ([(d, Precision.MONTH)] if d else []), needs_cue, False
+        return _day(_day_date(y, month, int(m["d"]))), [], needs_cue
+    return _month(_month_date(y, month)), [], needs_cue
+
+
+def _no_separator(m: re.Match[str]):
+    """MMYY, MMYYYY / DDMMYY, DDMMYYYY — printed without separators («Годен до 0727»).
+
+    Batch numbers look the same, so these always need a cue. A six-digit run
+    is MMYYYY when that is a valid date, else DDMMYY; both valid at once
+    would need a year starting "20" as the month, which cannot happen.
+    """
+    s = m["digits"]
+    if len(s) == 4:
+        return _month(_month_date(_year(s[2:]), int(s[:2]))), [], True
+    if len(s) == 6:
+        mmyyyy = _month_date(_year(s[2:]), int(s[:2]))
+        if mmyyyy:
+            return _month(mmyyyy), [], True
+        return _day(_day_date(_year(s[4:]), int(s[2:4]), int(s[:2]))), [], True
+    return _day(_day_date(_year(s[4:]), int(s[2:4]), int(s[:2]))), [], True
 
 
 # Priority order: longer / more specific first. A syntactic match consumes its
@@ -127,7 +148,9 @@ _PATTERNS = [
         _full_numeric,
     ),
     (
-        re.compile(rf"{_D}(?P<y>\d{{4}})\s*-\s*(?P<m>\d{{1,2}})\s*-\s*(?P<d>\d{{1,2}}){_E}"),
+        re.compile(
+            rf"{_D}(?P<y>\d{{4}})\s*(?P<sep>[./\-_])\s*(?P<m>\d{{1,2}})\s*(?P=sep)\s*(?P<d>\d{{1,2}}){_E}"
+        ),
         _iso_day,
     ),
     (
@@ -139,6 +162,7 @@ _PATTERNS = [
     (re.compile(rf"{_D}(?P<y>\d{{4}})\s*[./\-]\s*(?P<m>\d{{1,2}}){_E}"), _iso_month),
     (re.compile(rf"{_D}(?P<m>\d{{1,2}})(?:{_SEP}|\s+)(?P<y>\d{{4}}){_E}"), _month_year),
     (re.compile(rf"{_D}(?P<m>\d{{2}}){_SEP}(?P<y>\d{{2}}){_E}"), _month_year),
+    (re.compile(rf"{_D}(?P<digits>\d{{8}}|\d{{6}}|\d{{4}}){_E}"), _no_separator),
 ]
 
 
@@ -152,8 +176,8 @@ def find_dates(folded: str) -> list[DateMatch]:
             if any(start < t_end and t_start < end for t_start, t_end in taken):
                 continue
             taken.append((start, end))
-            readings, needs_cue, month_first = interpret(m)
-            found.append(DateMatch(m.span(), m.group(), tuple(readings), needs_cue, month_first))
+            readings, alt, needs_cue = interpret(m)
+            found.append(DateMatch(m.span(), m.group(), tuple(readings), tuple(alt), needs_cue))
     return sorted(found, key=lambda d: d.span)
 
 
