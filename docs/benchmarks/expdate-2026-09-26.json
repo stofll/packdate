@@ -1,0 +1,587 @@
+{
+  "provenance": {
+    "created_utc": "2026-09-26T07:11:10.807502+00:00",
+    "source": "https://felizang.github.io/expdate/index_expdate.html",
+    "attribution": "ExpDate, Ahmet Cagatay Seker and Sang Chul Ahn, KIST; CC BY 4.0",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "archive_sha256": "31dff6e0045ab6f4683c9e20b5dd04fedd751c174b681193744a013637e38da6",
+    "annotations_sha256": "faecdc197eabd90066ffe9abebd1c9066401ffeca85f16d80ae78b9900056f16",
+    "split": "evaluation",
+    "backend": "rapidocr/cyrillic_PP-OCRv5_mobile",
+    "models": {
+      "Det": {
+        "file": "PP-OCRv6_det_small.onnx",
+        "sha256": "090f04abcd9d9a7498bc4ebf677e4cb9bdce1fe4197ddb7e529f1ef44e1ff94f",
+        "providers": [
+          "CPUExecutionProvider"
+        ]
+      },
+      "Cls": {
+        "file": "ch_ppocr_mobile_v2.0_cls_mobile.onnx",
+        "sha256": "e47acedf663230f8863ff1ab0e64dd2d82b838fceb5957146dab185a89d6215c",
+        "providers": [
+          "CPUExecutionProvider"
+        ]
+      },
+      "Rec": {
+        "file": "cyrillic_PP-OCRv5_rec_mobile.onnx",
+        "sha256": "90f761b4bfcce0c8c561c0cb5c887b0971d3ec01c32164bdf7374a35b0982711",
+        "providers": [
+          "CPUExecutionProvider"
+        ]
+      }
+    },
+    "versions": {
+      "rapidocr": "3.9.2",
+      "onnxruntime": "1.30.0",
+      "pillow": "12.3.0",
+      "packdate": "0.0.1"
+    },
+    "python": "3.14.2 (tags/v3.14.2:df79316, Dec  5 2025, 17:18:21) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "bbfae623255886ba444c390363c658b9805a68f2",
+    "source_sha256": {
+      "datasets/evaluate_expdate.py": "4dcb69e0ab228e8f5eadd429271e3456c7d8a551a5ca9b9a9d6a2ab9035f56cb",
+      "src/packdate/__init__.py": "82c12a2682f5a3d23fb24f8c2357043f65e7e80b7773c325525580a7be3b6156",
+      "src/packdate/barcode/__init__.py": "8e1e891acc2b7cd0b6d399b9b00b774dc37a4a94d7fdfb8522eab7f6c8378b86",
+      "src/packdate/detect/__init__.py": "59f15fd4fa6f86e541f12fb053e6ea3cc519e2dce8f713b9b77cfd015da870ec",
+      "src/packdate/parse/__init__.py": "ff90f07a2b4aa0c38a04b86d0c702be28f8557758505485f5a3d401e89fd30c8",
+      "src/packdate/parse/dates.py": "1e2c18ff8f933344358581b0d550f276c8e0453026578cc7429972623f35373e",
+      "src/packdate/parse/gs1.py": "650f16d606d62983689d77146cf34f2d560d4b8788678e003d365f70410e906c",
+      "src/packdate/parse/lexicon.py": "78ac27e4d8e22a95bbc9b522dc0d735d43580fb4666b8762e22e4d06e33a7b6e",
+      "src/packdate/parse/normalize.py": "a686d645af1c1458758e6583b5fea91572b44be0d79f69b448d8816c41985c48",
+      "src/packdate/parse/text.py": "8e51ce3296618d5cc6ba4fda699ca31630e2f2185cac0605a7d6d257cea9ee8b",
+      "src/packdate/pipeline.py": "8a3292483a3eb5ad039e0b944525262354288b5b1750f4ea91ecfb0de26eb0fc",
+      "src/packdate/recognize/__init__.py": "c77bd2eef22778f9837b01bfe31430877f0a27078135668b3e8651592c42cc8b",
+      "src/packdate/recognize/rapid.py": "6f3647843a2b6ce3eeabe5ef5abb3d7ededa1ac2c02a36974eb13006228a4faf",
+      "src/packdate/result.py": "a0329a246c56f288ca5de5b2a32c59a277eed1b003baaa2b7b030979d25e2126"
+    },
+    "options": {
+      "lang": "cyrillic",
+      "limit": null,
+      "oracle_crops": true,
+      "crop_padding": 8
+    },
+    "protocol": {
+      "ocr": "NFKC uppercase alphanumeric transcription present in spatially matched OCR lines; digit boundaries; no O/0 correction",
+      "spatial_match": "intersection / smaller box area >= 0.5",
+      "iso": "printed ISO including precision, from consistent calendar-valid upstream DMY labels; YY means 20YY",
+      "scope": "mixed-domain diagnostic; no negatives; no valid_through or medicine benchmark claim; barcode disabled",
+      "crop": "ground-truth bbox with padding, same OCR detector+recognizer; no cue injection into pipeline"
+    },
+    "elapsed_seconds": 734.752
+  },
+  "baseline": {
+    "images": 665,
+    "errors": 0,
+    "ocr_scored": 665,
+    "iso_scored": 654,
+    "unscored_labels": {
+      "missing_year_or_month": 9,
+      "invalid_calendar_date": 1,
+      "component_transcription_disagreement": 1
+    },
+    "full_frame_transcription_present": 504,
+    "oracle_crop_scored": 665,
+    "oracle_crop_transcription_present": 323,
+    "crop_recovers_full_miss": 49,
+    "crop_loses_full_match": 230,
+    "pipeline_outcomes": {
+      "abstain": 566,
+      "exact": 43,
+      "false": 45
+    },
+    "exact_printed_iso_rate": 0.0657,
+    "false_on_committed": 0.5114,
+    "abstain_rate": 0.8654,
+    "candidate_contains_expected_iso": 155,
+    "nonexact_with_readable_transcription": 458,
+    "abstain_reasons": {
+      "no_cue": 396,
+      "no_date": 96,
+      "cue_without_date": 71,
+      "ambiguous": 3
+    }
+  },
+  "after_year_first_fix": {
+    "images": 665,
+    "errors": 0,
+    "ocr_scored": 665,
+    "iso_scored": 654,
+    "unscored_labels": {
+      "missing_year_or_month": 9,
+      "invalid_calendar_date": 1,
+      "component_transcription_disagreement": 1
+    },
+    "full_frame_transcription_present": 504,
+    "oracle_crop_scored": 665,
+    "oracle_crop_transcription_present": 323,
+    "crop_recovers_full_miss": 49,
+    "crop_loses_full_match": 230,
+    "pipeline_outcomes": {
+      "abstain": 566,
+      "exact": 75,
+      "false": 13
+    },
+    "exact_printed_iso_rate": 0.1147,
+    "false_on_committed": 0.1477,
+    "abstain_rate": 0.8654,
+    "candidate_contains_expected_iso": 451,
+    "nonexact_with_readable_transcription": 426,
+    "abstain_reasons": {
+      "no_cue": 395,
+      "no_date": 97,
+      "cue_without_date": 71,
+      "ambiguous": 3
+    }
+  },
+  "reparse_provenance": {
+    "created_utc": "2026-09-26T07:23:34.575715+00:00",
+    "input_report_sha256": "485084d517a3898cff48844fb5d641d5e6c070a5e78573a14c54beed2720666a",
+    "source_sha256": {
+      "src/packdate/__init__.py": "82c12a2682f5a3d23fb24f8c2357043f65e7e80b7773c325525580a7be3b6156",
+      "src/packdate/barcode/__init__.py": "8e1e891acc2b7cd0b6d399b9b00b774dc37a4a94d7fdfb8522eab7f6c8378b86",
+      "src/packdate/detect/__init__.py": "59f15fd4fa6f86e541f12fb053e6ea3cc519e2dce8f713b9b77cfd015da870ec",
+      "src/packdate/parse/__init__.py": "ff90f07a2b4aa0c38a04b86d0c702be28f8557758505485f5a3d401e89fd30c8",
+      "src/packdate/parse/dates.py": "7d64513319cf843a34ef2daace3532c9a087e75842a4994673ce69660ca887cd",
+      "src/packdate/parse/gs1.py": "650f16d606d62983689d77146cf34f2d560d4b8788678e003d365f70410e906c",
+      "src/packdate/parse/lexicon.py": "78ac27e4d8e22a95bbc9b522dc0d735d43580fb4666b8762e22e4d06e33a7b6e",
+      "src/packdate/parse/normalize.py": "a686d645af1c1458758e6583b5fea91572b44be0d79f69b448d8816c41985c48",
+      "src/packdate/parse/text.py": "8e51ce3296618d5cc6ba4fda699ca31630e2f2185cac0605a7d6d257cea9ee8b",
+      "src/packdate/pipeline.py": "8a3292483a3eb5ad039e0b944525262354288b5b1750f4ea91ecfb0de26eb0fc",
+      "src/packdate/recognize/__init__.py": "c77bd2eef22778f9837b01bfe31430877f0a27078135668b3e8651592c42cc8b",
+      "src/packdate/recognize/rapid.py": "6f3647843a2b6ce3eeabe5ef5abb3d7ededa1ac2c02a36974eb13006228a4faf",
+      "src/packdate/result.py": "a0329a246c56f288ca5de5b2a32c59a277eed1b003baaa2b7b030979d25e2126"
+    },
+    "evaluator_sha256": "36887f8b86fa580c5a15f73000af39a829429dc4c7a60d5b8fc979ce03f53c17"
+  },
+  "local_reports": {
+    "cyrillic-baseline.json": "485084d517a3898cff48844fb5d641d5e6c070a5e78573a14c54beed2720666a",
+    "cyrillic-reparsed.json": "d219df1a4c0359bd66ee2075b524910b62f21be2feb09eb3dd7fe2a53335afa1"
+  },
+  "changed_predictions": [
+    {
+      "file": "test_00059.jpg",
+      "expected_iso": "2022-08-31",
+      "before": "2022-08",
+      "after": "2022-08-31",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00067.jpg",
+      "expected_iso": "2021-08-05",
+      "before": "2021-08",
+      "after": "2021-08-05",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00068.jpg",
+      "expected_iso": "2022-10-31",
+      "before": "2022-10",
+      "after": "2022-10-31",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00078.jpg",
+      "expected_iso": "2021-11-17",
+      "before": "2021-11",
+      "after": "2021-11-17",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00079.jpg",
+      "expected_iso": "2021-07-17",
+      "before": "2021-07",
+      "after": "2021-07-17",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00084.jpg",
+      "expected_iso": "2021-11-12",
+      "before": "2021-11",
+      "after": "2021-11-12",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00106.jpg",
+      "expected_iso": "2022-10-22",
+      "before": "2022-10",
+      "after": "2022-10-22",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00128.jpg",
+      "expected_iso": "2022-01-20",
+      "before": "2022-01",
+      "after": "2022-01-20",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00130.jpg",
+      "expected_iso": "2022-02-03",
+      "before": "2022-02",
+      "after": "2022-02-03",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00186.jpg",
+      "expected_iso": "2022-10-11",
+      "before": "2022-10",
+      "after": "2022-10-11",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00214.jpg",
+      "expected_iso": "2021-12-18",
+      "before": "2021-12",
+      "after": "2021-12-18",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00226.jpg",
+      "expected_iso": "2022-01-07",
+      "before": "2022-01",
+      "after": "2022-01-07",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00249.jpg",
+      "expected_iso": "2021-04-03",
+      "before": "2021-04",
+      "after": "2021-04-03",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00275.jpg",
+      "expected_iso": "2022-05-21",
+      "before": "2022-05",
+      "after": "2022-05-21",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00276.jpg",
+      "expected_iso": "2021-08-30",
+      "before": "2021-08",
+      "after": "2021-08-30",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00299.jpg",
+      "expected_iso": "2022-06-15",
+      "before": "2022-06",
+      "after": "2022-06-05",
+      "outcome_before": "false",
+      "outcome_after": "false"
+    },
+    {
+      "file": "test_00301.jpg",
+      "expected_iso": "2021-08-30",
+      "before": "2021-08",
+      "after": "2021-08-30",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00352.jpg",
+      "expected_iso": "2022-07-29",
+      "before": "2022-07",
+      "after": "2022-07-29",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00449.jpg",
+      "expected_iso": "2021-10-18",
+      "before": "2021-10",
+      "after": "2021-10-18",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00453.jpg",
+      "expected_iso": "2022-03-17",
+      "before": "2022-03",
+      "after": "2022-03-17",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00482.jpg",
+      "expected_iso": "2021-09-25",
+      "before": "2021-09",
+      "after": "2021-09-25",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00486.jpg",
+      "expected_iso": "2021-09-30",
+      "before": "2021-09",
+      "after": "2021-09-30",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00532.jpg",
+      "expected_iso": "2022-08-13",
+      "before": "2022-08",
+      "after": "2022-08-13",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00555.jpg",
+      "expected_iso": "2023-06-26",
+      "before": "2023-06",
+      "after": "2023-06-26",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00561.jpg",
+      "expected_iso": "2022-08-25",
+      "before": "2022-08",
+      "after": "2022-08-25",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00600.jpg",
+      "expected_iso": "2022-07-29",
+      "before": "2022-07",
+      "after": "2022-07-29",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00602.jpg",
+      "expected_iso": "2021-05-27",
+      "before": "2021-05",
+      "after": "2021-05-27",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00603.jpg",
+      "expected_iso": "2021-09-13",
+      "before": "2021-09",
+      "after": "2021-09-13",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00614.jpg",
+      "expected_iso": "2021-08-20",
+      "before": "2021-08",
+      "after": "2021-08-20",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00639.jpg",
+      "expected_iso": "2022-04-04",
+      "before": "2022-04",
+      "after": "2022-04-04",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00648.jpg",
+      "expected_iso": "2021-08-03",
+      "before": "2021-08",
+      "after": "2021-08-03",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00657.jpg",
+      "expected_iso": "2021-11-03",
+      "before": "2021-11",
+      "after": "2021-11-03",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    },
+    {
+      "file": "test_00661.jpg",
+      "expected_iso": "2021-06-19",
+      "before": "2021-06",
+      "after": "2021-06-19",
+      "outcome_before": "false",
+      "outcome_after": "exact"
+    }
+  ],
+  "excluded_iso_labels": [
+    {
+      "file": "test_00100.jpg",
+      "transcription": "12/22",
+      "reason": "missing_year_or_month"
+    },
+    {
+      "file": "test_00136.jpg",
+      "transcription": "03.31",
+      "reason": "missing_year_or_month"
+    },
+    {
+      "file": "test_00167.jpg",
+      "transcription": "03.11",
+      "reason": "missing_year_or_month"
+    },
+    {
+      "file": "test_00328.jpg",
+      "transcription": "30 10 2021",
+      "reason": "invalid_calendar_date"
+    },
+    {
+      "file": "test_00342.jpg",
+      "transcription": "04.08",
+      "reason": "missing_year_or_month"
+    },
+    {
+      "file": "test_00479.jpg",
+      "transcription": "01.30",
+      "reason": "missing_year_or_month"
+    },
+    {
+      "file": "test_00499.jpg",
+      "transcription": "01.25",
+      "reason": "missing_year_or_month"
+    },
+    {
+      "file": "test_00546.jpg",
+      "transcription": "21.11.19",
+      "reason": "component_transcription_disagreement"
+    },
+    {
+      "file": "test_00585.jpg",
+      "transcription": "07-21",
+      "reason": "missing_year_or_month"
+    },
+    {
+      "file": "test_00616.jpg",
+      "transcription": "04.10",
+      "reason": "missing_year_or_month"
+    },
+    {
+      "file": "test_00617.jpg",
+      "transcription": "04.05",
+      "reason": "missing_year_or_month"
+    }
+  ],
+  "remaining_iso_disagreements": [
+    {
+      "file": "test_00076.jpg",
+      "expected_iso": "2021-01-22",
+      "predicted_iso": "2022-01-21",
+      "ocr_region_text": "Best Before: 21.01.22",
+      "upstream_transcription": "21.01.22"
+    },
+    {
+      "file": "test_00248.jpg",
+      "expected_iso": "2022-06-22",
+      "predicted_iso": "2022-06",
+      "ocr_region_text": "22 06 2022",
+      "upstream_transcription": "22 06 2022"
+    },
+    {
+      "file": "test_00251.jpg",
+      "expected_iso": "2023-04-28",
+      "predicted_iso": "2028-04",
+      "ocr_region_text": "EXP:APR-28-2023",
+      "upstream_transcription": "APR-28-2023"
+    },
+    {
+      "file": "test_00278.jpg",
+      "expected_iso": "2021-06-30",
+      "predicted_iso": "2021-06",
+      "ocr_region_text": "2021.06 30",
+      "upstream_transcription": "2021 06 30"
+    },
+    {
+      "file": "test_00299.jpg",
+      "expected_iso": "2022-06-15",
+      "predicted_iso": "2022-06-05",
+      "ocr_region_text": "BEST BEFORE 2022.06.5",
+      "upstream_transcription": "2022.06.15"
+    },
+    {
+      "file": "test_00360.jpg",
+      "expected_iso": "2021-09-25",
+      "predicted_iso": "2021-09",
+      "ocr_region_text": "25 09 2021 HB 19 06:06",
+      "upstream_transcription": "25 09 2021"
+    },
+    {
+      "file": "test_00558.jpg",
+      "expected_iso": "2022-12-02",
+      "predicted_iso": "2022-12",
+      "ocr_region_text": "EXP:2022-12",
+      "upstream_transcription": "2022/12/02"
+    },
+    {
+      "file": "test_00606.jpg",
+      "expected_iso": "2021-09-12",
+      "predicted_iso": "2021-09",
+      "ocr_region_text": "EXPIRY 12 09 2021",
+      "upstream_transcription": "12 09 2021"
+    },
+    {
+      "file": "test_00607.jpg",
+      "expected_iso": "2021-09-08",
+      "predicted_iso": "2009-09-20",
+      "ocr_region_text": "Prod. DateBEST BEFORE 08.09. 2021",
+      "upstream_transcription": "08.09.2021"
+    },
+    {
+      "file": "test_00630.jpg",
+      "expected_iso": "2022-05-05",
+      "predicted_iso": "2022-05",
+      "ocr_region_text": "EXP:05,05.2022",
+      "upstream_transcription": "05.05.2022"
+    },
+    {
+      "file": "test_00634.jpg",
+      "expected_iso": "2022-10",
+      "predicted_iso": "2022-10-19",
+      "ocr_region_text": "Oct 2022",
+      "upstream_transcription": "OCT 2022"
+    },
+    {
+      "file": "test_00636.jpg",
+      "expected_iso": "2023-07-01",
+      "predicted_iso": "2020-07-01",
+      "ocr_region_text": "01.07.2023",
+      "upstream_transcription": "01.07.2023"
+    },
+    {
+      "file": "test_00653.jpg",
+      "expected_iso": "2021-05-24",
+      "predicted_iso": "2024-05",
+      "ocr_region_text": "USE BY MAY 24 21 N C",
+      "upstream_transcription": "MAY 24 21"
+    }
+  ],
+  "commons_regression": {
+    "images": 35,
+    "changed_results": [],
+    "report_sha256": {
+      "report-after.json": "28d59c27be5b089bc342eebc3c98ea00272e3ecc7902ba8cd3b289e5e8cdfdcd",
+      "report-year-first.json": "0c9f876ca7d2ec2b6d04919c38df44db12a537312d12acb5eb6e309fd9b7e28f"
+    },
+    "label_status": "tool-generated, not human-confirmed"
+  }
+}

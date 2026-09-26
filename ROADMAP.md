@@ -54,6 +54,7 @@ Food and cosmetics grammars (ТР ТС 022, ТР ТС 009) are deferred to miles
 - [x] Thin CLI under `apps/demo/`
 - [ ] ~30 golden medicine photo fixtures + expected JSON (label provenance recorded; a cloud VLM may pre-label only with human review — see [research/11 §5](docs/research/11-models-refresh.md#5-cloud-vlm-as-an-offline-labeling-oracle-not-runtime))
 - [x] Fixture metrics: Exact `valid_through`, false ISO, abstain rate, OCR-vs-parser miss split (`apps/demo/evaluate.py`)
+- [x] External ExpDate diagnostic: ZIP evaluation runner, full-frame vs annotated crop OCR, printed ISO agreement, and saved-text parser replay (`datasets/evaluate_expdate.py`; protocol in [datasets/README](datasets/README.md#evaluate-the-downloaded-expdate-archive)). Does not close the medicine fixture or bench gates.
 - [ ] Compare `cyrillic` vs `eslav` PP-OCRv5 recognition models on the fixtures
 
 **Done when:** install → run CLI on a few photos → readable JSON + clear "confirm me" cases.
